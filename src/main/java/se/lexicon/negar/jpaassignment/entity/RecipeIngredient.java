@@ -12,8 +12,8 @@ public class RecipeIngredient {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "recipeIngredient_id", updatable = false, nullable = false)
-    private String recipeIngredient_id;
+    @Column(name = "recipe_ingredient_id", updatable = false, nullable = false)
+    private String recipe_ingredient_id;
     @ManyToOne(
             cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH},
             fetch = FetchType.EAGER)
@@ -21,7 +21,7 @@ public class RecipeIngredient {
     private Ingredient ingredient;
 
     @ManyToOne
-    @JoinColumn(name = "recipeId")
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
     private double amount;
@@ -36,7 +36,7 @@ public class RecipeIngredient {
     }
 
     public String getRecipeIngredientId() {
-        return recipeIngredient_id;
+        return recipe_ingredient_id;
     }
 
     public Ingredient getIngredient() {
@@ -77,7 +77,7 @@ public class RecipeIngredient {
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
         return Double.compare(that.amount, amount) == 0 &&
-                Objects.equals(recipeIngredient_id, that.recipeIngredient_id) &&
+                Objects.equals(recipe_ingredient_id, that.recipe_ingredient_id) &&
                 Objects.equals(ingredient, that.ingredient) &&
                 Objects.equals(recipe, that.recipe) &&
                 measurement == that.measurement;
@@ -85,13 +85,13 @@ public class RecipeIngredient {
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipeIngredient_id, ingredient, recipe, amount, measurement);
+        return Objects.hash(recipe_ingredient_id, ingredient, recipe, amount, measurement);
     }
 
     @Override
     public String toString() {
         return "RecipeIngredient{" +
-                "recipeIngredientId='" + recipeIngredient_id + '\'' +
+                "recipeIngredientId='" + recipe_ingredient_id + '\'' +
                 ", ingredient=" + ingredient +
                 ", recipe=" + recipe +
                 ", amount=" + amount +
