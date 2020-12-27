@@ -12,23 +12,23 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ingredient_id;
 
-    private String ingredient_name;
+    private String ingredientName;
 
     public Ingredient(){}
     public Ingredient(String ingredientName){
-        setIngredient_name(ingredientName);
+        setIngredientName(ingredientName);
     }
 
     public int getIngredient_id() {
         return ingredient_id;
     }
 
-    public String getIngredient_name() {
-        return ingredient_name;
+    public String getIngredientName() {
+        return ingredientName;
     }
 
-    public void setIngredient_name(String ingredient_name) {
-        this.ingredient_name = ingredient_name;
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
     }
 
     @Override
@@ -37,19 +37,19 @@ public class Ingredient {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
         return ingredient_id == that.ingredient_id &&
-                Objects.equals(ingredient_name, that.ingredient_name);
+                Objects.equals(ingredientName, that.ingredientName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ingredient_id, ingredient_name);
+        return Objects.hash(ingredient_id, ingredientName);
     }
 
     @Override
     public String toString() {
         return "Ingredient{" +
                 "ingredient_id=" + ingredient_id +
-                ", ingredient_name='" + ingredient_name + '\'' +
+                ", ingredient_name='" + ingredientName + '\'' +
                 '}';
     }
 }

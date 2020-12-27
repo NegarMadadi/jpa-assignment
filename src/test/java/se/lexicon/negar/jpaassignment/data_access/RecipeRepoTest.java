@@ -29,6 +29,12 @@ class RecipeRepoTest {
         testRecipe = new Recipe();
         testRecipe.setRecipe_name("Test recipe");
         testRecipe.setRecipeInstruction(new RecipeInstruction("Instruction of test recipe"));
+        testRecipeFirstIngredient = new RecipeIngredient(new Ingredient("Ingredient 1"),2,Measurement.KG);
+        testRecipeSecondIngredient = new RecipeIngredient(new Ingredient("Ingredient 2"),10,Measurement.ML);
+        testRecipeThirdIngredient = new RecipeIngredient(new Ingredient("Ingredient 3"),5,Measurement.CL);
+        testRecipe.addRecipeIngredient(testRecipeFirstIngredient);
+        testRecipe.addRecipeIngredient(testRecipeSecondIngredient);
+        testRecipe.addRecipeIngredient(testRecipeThirdIngredient);
         recipeRepo.save(testRecipe);
     }
 
@@ -39,9 +45,18 @@ class RecipeRepoTest {
     @Test
     void successfully_created(){
         assertNotNull(testRecipe);
+        assertEquals("Test recipe",testRecipe.getRecipe_name());
+        assertEquals("Instruction of test recipe",testRecipe.getRecipeInstruction().getInstructions());
+        assertEquals(3,testRecipe.getRecipeIngredients().size());
     }
 
     @Test
     void findAll() {
+        assertEquals(1,recipeRepo.findAll().size());
+    }
+
+    @Test
+    void findAllByRecipeIngredients_Ingredient_IngredientNameIgnoreCase() {
+        assertEquals(1,recipeRepo.findAllByRecipeIngredients_Ingredient_IngredientNameIgnoreCase("iNgReDiEnt 2").size());
     }
 }

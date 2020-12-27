@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RecipeRepo extends CrudRepository<Recipe,Integer> {
     List<Recipe> findAll();
+    List<Recipe> findAllByRecipeIngredients_Ingredient_IngredientNameIgnoreCase(String name);
 }

@@ -27,7 +27,7 @@ class IngredientRepoTest {
     void successfully_created(){
         assertNotNull(testIngredient);
         assertTrue(testIngredient.getIngredient_id() != 0);
-        assertEquals("Test",testIngredient.getIngredient_name());
+        assertEquals("Test",testIngredient.getIngredientName());
     }
 
     @Test

@@ -1,6 +1,5 @@
 package se.lexicon.negar.jpaassignment.entity;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +16,7 @@ class IngredientTest {
     void successfully_created(){
         assertNotNull(testIngredient);
         assertTrue(testIngredient.getIngredient_id()==0);
-        assertEquals("Test",testIngredient.getIngredient_name());
+        assertEquals("Test",testIngredient.getIngredientName());
     }
 
     @Test
@@ -31,7 +30,7 @@ class IngredientTest {
     void testToString() {
         String toString = testIngredient.toString();
 
-        assertTrue(toString.contains(testIngredient.getIngredient_name()));
+        assertTrue(toString.contains(testIngredient.getIngredientName()));
         assertTrue(toString.contains(testIngredient.getIngredient_id()+""));
     }
 }
