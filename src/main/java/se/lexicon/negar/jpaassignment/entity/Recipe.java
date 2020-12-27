@@ -13,25 +13,84 @@ public class Recipe {
 
 
     private String recipe_name;
-    private int instruction_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "instruction_id")
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    private List<RecipeIngredient> recipeIngredients;
+    public boolean addRecipeIngredient(RecipeIngredient recipeIngredient){
+        if(recipeIngredients == null)
+            recipeIngredients = new ArrayList<>();
+        if(recipeIngredient == null)
+            throw new IllegalArgumentException("Recipe ingredient is null");
+        if(!recipeIngredients.contains(recipeIngredient))
+        {
+            recipeIngredients.add(recipeIngredient);
+            recipeIngredient.setRecipe(this);
+            return true;
+        }
+        return false;
+    }
+    public boolean removeRecipeIngredient(RecipeIngredient recipeIngredient){
+        if(recipeIngredients == null)
+            recipeIngredients = new ArrayList<>();
+        if(recipeIngredient == null)
+            throw new IllegalArgumentException("Recipe ingredient is null");
+        if(!recipeIngredients.contains(recipeIngredient))
+        {
+            return false;
+        }
+        recipeIngredients.remove(recipeIngredient);
+        recipeIngredient.setRecipe(null);
+        return true;
+    }
+
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH},
+                fetch = FetchType.EAGER)
     private RecipeInstruction recipeInstruction;
 
-    @ManyToMany(mappedBy = "recipes")
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    @JoinTable(name = "recipe_recipe_category"
+            , joinColumns = @JoinColumn(name = "recipe_id")
+            , inverseJoinColumns = @JoinColumn(name = "recipe_category_id"))
     private List<RecipeCategory> categories = new ArrayList<>();
     //Convenience Methods
-    public void addRecipeCategory(RecipeCategory category){
-        categories.add(category);
-        category.getRecipes().add(this);
+    public boolean addRecipeCategory(RecipeCategory category){
+        if(categories == null)
+            categories = new ArrayList<>();
+        if(category == null)
+            throw new IllegalArgumentException("Category is null");
+        if(!categories.contains(category))
+        {
+            categories.add(category);
+            category.getRecipes().add(this);
+            return true;
+        }
+        return false;
     }
-    public void removeRecipeCategory(RecipeCategory category){
+    public boolean removeRecipeCategory(RecipeCategory category){
+        if(categories == null)
+            categories = new ArrayList<>();
+        if(category == null)
+            throw new IllegalArgumentException("Category is null");
+        if(!categories.contains(category))
+        {
+            return false;
+        }
         categories.remove(category);
         category.getRecipes().remove(this);
+        return true;
     }
 
     public Recipe() {
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
     public int getRecipe_id() {
@@ -44,14 +103,6 @@ public class Recipe {
 
     public void setRecipe_name(String recipe_name) {
         this.recipe_name = recipe_name;
-    }
-
-    public int getInstruction_id() {
-        return instruction_id;
-    }
-
-    public void setInstruction_id(int instruction_id) {
-        this.instruction_id = instruction_id;
     }
 
     public RecipeInstruction getRecipeInstruction() {
@@ -76,14 +127,13 @@ public class Recipe {
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
         return recipe_id == recipe.recipe_id &&
-                instruction_id == recipe.instruction_id &&
                 Objects.equals(recipe_name, recipe.recipe_name) &&
                 Objects.equals(recipeInstruction, recipe.recipeInstruction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipe_id, recipe_name, instruction_id, recipeInstruction);
+        return Objects.hash(recipe_id, recipe_name, recipeInstruction);
     }
 
     @Override
@@ -91,7 +141,6 @@ public class Recipe {
         return "Recipe{" +
                 "recipe_id=" + recipe_id +
                 ", recipe_name='" + recipe_name + '\'' +
-                ", instruction_id=" + instruction_id +
                 ", recipeInstruction=" + recipeInstruction +
                 '}';
     }

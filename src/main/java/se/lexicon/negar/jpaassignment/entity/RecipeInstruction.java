@@ -18,25 +18,11 @@ public class RecipeInstruction {
 
     private String instructions;
 
-    @OneToOne(
-            mappedBy = "instruction_id"
-            , cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    private Recipe recipe;
-
     private RecipeInstruction() {
     }
 
     public RecipeInstruction(String instructions) {
         this.instructions = instructions;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
     }
 
     public UUID getInstruction_id() {

@@ -14,14 +14,16 @@ public class RecipeIngredient {
     )
     @Column(name = "recipe_ingredient_id", updatable = false, nullable = false)
     private String recipe_ingredient_id;
+
+    @ManyToOne(
+            cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH},
+            fetch = FetchType.LAZY)
+    private Ingredient ingredient;
+
     @ManyToOne(
             cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH},
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
-
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(referencedColumnName = "jpaassignment.entity.recipe.recipe_id")
     private Recipe recipe;
 
     private double amount;
