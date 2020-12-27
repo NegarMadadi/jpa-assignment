@@ -23,7 +23,7 @@ public class RecipeIngredient {
     @ManyToOne(
             cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH},
             fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "jpaassignment.entity.recipe.recipe_id")
+    @JoinColumn(referencedColumnName = "recipe_id")
     private Recipe recipe;
 
     private double amount;
