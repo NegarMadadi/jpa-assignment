@@ -1,6 +1,8 @@
 package se.lexicon.negar.jpaassignment.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,18 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instruction_id")
     private RecipeInstruction recipeInstruction;
+
+    @ManyToMany(mappedBy = "recipes")
+    private List<RecipeCategory> categories = new ArrayList<>();
+    //Convenience Methods
+    public void addRecipeCategory(RecipeCategory category){
+        categories.add(category);
+        category.getRecipes().add(this);
+    }
+    public void removeRecipeCategory(RecipeCategory category){
+        categories.remove(category);
+        category.getRecipes().remove(this);
+    }
 
     public Recipe() {
     }
@@ -46,6 +60,14 @@ public class Recipe {
 
     public void setRecipeInstruction(RecipeInstruction recipeInstruction) {
         this.recipeInstruction = recipeInstruction;
+    }
+
+    public List<RecipeCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<RecipeCategory> categories) {
+        this.categories = categories;
     }
 
     @Override
